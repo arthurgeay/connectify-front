@@ -1,8 +1,10 @@
 <template>
   <div class="container">
     <div class="d-flex justify-content-between mb-5 align-items-center<">
-      <p class="mb-0">This is the homepage</p>
-      <!-- <button class="btn btn-light">Ajouter un utilisateur</button> -->
+      <p class="mb-0">Liste des utilisateurs</p>
+      <button class="btn btn-light" @click="$router.push(`/users/create`)">
+        Ajouter un utilisateur
+      </button>
     </div>
 
     <ul class="list-group list-group-numbered">
@@ -13,14 +15,22 @@
         v-bind:key="user"
       >
         <a
-          href=""
+          @click="$router.push(`/activities/${user._id}`)"
           class="ms-2 me-auto text-decoration-none text-dark text-start"
         >
           <div class="fw-bold">{{ user.fullname }} - {{ user.age }} ans</div>
           {{ user.city }}
         </a>
-        <!-- <button class="btn btn-primary me-2">Modifier</button> -->
-        <button @click="deleteUser(user._id)" class="btn btn-danger align-self-center">
+        <button
+          class="btn btn-primary me-2 align-self-center"
+          @click="$router.push(`/users/${user._id}/update`)"
+        >
+          Modifier
+        </button>
+        <button
+          @click="deleteUser(user._id)"
+          class="btn btn-danger align-self-center"
+        >
           Supprimer
         </button>
       </li>
@@ -44,17 +54,7 @@ export default {
         this.users = response.data;
       });
     },
-    // async addUser() {
-    //   await axios
-    //     .post(`${import.meta.env.VITE_API}/users`, {
-    //       fullname,
-    //       age,
-    //       city
-    //     })
-    //     .then((response) => {
-    //       this.users = response.data;
-    //     });
-    // },
+
     async deleteUser(userId) {
       await axios
         .delete(`${import.meta.env.VITE_API}/users/${userId}`)
@@ -65,7 +65,6 @@ export default {
   },
   mounted() {
     this.getUsers();
-    // this.addUser();
     this.deleteUser();
   },
 };
