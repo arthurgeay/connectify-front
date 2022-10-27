@@ -55,8 +55,23 @@
             </p>
           </div>
 
-          <button class="btn btn-primary">Modifier</button>
-          <button class="btn btn-danger">Supprimer</button>
+          <button
+            class="btn btn-primary"
+            @click="
+              $router.push({
+                name: 'UpdateActivity',
+                params: {
+                  activityId: activity._id,
+                  userId: $route.params.userId,
+                },
+              })
+            "
+          >
+            Modifier
+          </button>
+          <button class="btn btn-danger" @click="deleteActivity(activity._id)">
+            Supprimer
+          </button>
         </div>
       </div>
     </div>
@@ -88,6 +103,18 @@ export default {
         .then((response) => {
           this.activities = response.data;
         });
+    },
+    async deleteActivity(id) {
+      await axios
+        .delete(
+          `${import.meta.env.VITE_API}/activities/${id}/users/${
+            this.$route.params.userId
+          }`
+        )
+        .then(
+          async (response) =>
+            await this.getActivities(this.$route.params.userId)
+        );
     },
   },
   async mounted() {

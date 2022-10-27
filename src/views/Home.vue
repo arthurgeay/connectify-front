@@ -14,13 +14,16 @@
         v-for="user in users"
         v-bind:key="user"
       >
-        <a
-          @click="$router.push(`/activities/${user._id}`)"
-          class="ms-2 me-auto text-decoration-none text-dark text-start"
-        >
+        <a class="ms-2 me-auto text-decoration-none text-dark text-start">
           <div class="fw-bold">{{ user.fullname }} - {{ user.age }} ans</div>
           {{ user.city }}
         </a>
+        <button
+          class="btn btn-warning me-2 align-self-center"
+          @click="$router.push(`/activities/${user._id}`)"
+        >
+          Activités
+        </button>
         <button
           class="btn btn-primary me-2 align-self-center"
           @click="$router.push(`/users/${user._id}/update`)"
@@ -58,14 +61,13 @@ export default {
     async deleteUser(userId) {
       await axios
         .delete(`${import.meta.env.VITE_API}/users/${userId}`)
-        .then((response) => {
-          this.users = response.data;
+        .then(async (response) => {
+          await this.getUsers();
         });
     },
   },
   mounted() {
     this.getUsers();
-    this.deleteUser();
   },
 };
 </script>

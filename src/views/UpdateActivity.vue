@@ -37,7 +37,7 @@
       <input type="number" class="form-control" v-model="activity.calories" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Créer</button>
+    <button type="submit" class="btn btn-primary">Mettre à jour</button>
   </form>
 </template>
 <script>
@@ -49,7 +49,6 @@ export default {
   data() {
     return {
       activity: {
-        userId: "",
         date: "",
         calories: "",
         distance: "",
@@ -66,23 +65,25 @@ export default {
       await axios
         .put(
           `${import.meta.env.VITE_API}/activities/${
-            this.activityProp._id
-          }/users/${this.activity.userId}`,
+            this.$route.params.activityId
+          }/users/${this.$route.params.userId}`,
           this.activity
         )
         .then((response) => {
-          this.$router.push(`/activities/${this.activity.userId}`);
+          this.$router.push(`/activities/${this.$route.params.userId}`);
         });
     },
   },
   async mounted() {
-    this.activity.userId = this.$route.params.userId;
-    if (this.activityProp) {
-      this.activity = {
-        ...this.activityProp,
-        userId: this.$route.params.userId,
-      };
-    }
+    await axios
+      .get(
+        `${import.meta.env.VITE_API}/activities/${
+          this.$route.params.activityId
+        }/users/${this.$route.params.userId}`
+      )
+      .then((response) => {
+        this.activity = response.data;
+      });
   },
 };
 </script>

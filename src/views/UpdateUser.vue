@@ -22,10 +22,8 @@ import axios from "axios";
 export default {
   name: "UpdateUser",
   components: {},
-  props: ["userProp"],
   data() {
     return {
-      userId: "",
       user: {
         fullname: "",
         age: "",
@@ -36,20 +34,21 @@ export default {
   methods: {
     async updateUser() {
       await axios
-        .put(`${import.meta.env.VITE_API}/users/${this.user.userId}`, this.user)
+        .put(
+          `${import.meta.env.VITE_API}/users/${this.$route.params.userId}`,
+          this.user
+        )
         .then((response) => {
           this.$router.push(`/`);
         });
     },
   },
   async mounted() {
-    this.user.userId = this.$route.params.userId;
-    if (this.userProp) {
-      this.user = {
-        ...this.userProp,
-        userId: this.$route.params.userId,
-      };
-    }
+    await axios
+      .get(`${import.meta.env.VITE_API}/users/${this.$route.params.userId}`)
+      .then((response) => {
+        this.user = response.data;
+      });
   },
 };
 </script>
