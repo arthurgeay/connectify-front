@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <p>This is the homepage</p>
+    <div class="d-flex justify-content-between mb-5 align-items-center<">
+      <p class="mb-0">This is the homepage</p>
+      <!-- <button class="btn btn-light">Ajouter un utilisateur</button> -->
+    </div>
 
     <ul class="list-group list-group-numbered">
       <li
@@ -16,8 +19,10 @@
           <div class="fw-bold">{{ user.fullname }} - {{ user.age }} ans</div>
           {{ user.city }}
         </a>
-        <!-- <a href="" class="btn tbn-primary">Edit</a>
-        <a href="" class="btn btn-danger">Delete</a> -->
+        <!-- <button class="btn btn-primary me-2">Modifier</button> -->
+        <button @click="deleteUser(user._id)" class="btn btn-danger align-self-center">
+          Supprimer
+        </button>
       </li>
     </ul>
   </div>
@@ -35,8 +40,24 @@ export default {
   },
   methods: {
     async getUsers() {
+      await axios.get(`${import.meta.env.VITE_API}/users`).then((response) => {
+        this.users = response.data;
+      });
+    },
+    // async addUser() {
+    //   await axios
+    //     .post(`${import.meta.env.VITE_API}/users`, {
+    //       fullname,
+    //       age,
+    //       city
+    //     })
+    //     .then((response) => {
+    //       this.users = response.data;
+    //     });
+    // },
+    async deleteUser(userId) {
       await axios
-        .get(`https://connectify-api-ynov.herokuapp.com/users`)
+        .delete(`${import.meta.env.VITE_API}/users/${userId}`)
         .then((response) => {
           this.users = response.data;
         });
@@ -44,6 +65,8 @@ export default {
   },
   mounted() {
     this.getUsers();
+    // this.addUser();
+    this.deleteUser();
   },
 };
 </script>
