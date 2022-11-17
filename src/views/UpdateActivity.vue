@@ -67,7 +67,12 @@ export default {
           `${import.meta.env.VITE_API}/activities/${
             this.$route.params.activityId
           }/users/${this.$route.params.userId}`,
-          this.activity
+          this.activity,
+          {
+             headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+          }
         )
         .then((response) => {
           this.$router.push(`/activities/${this.$route.params.userId}`);
@@ -79,7 +84,11 @@ export default {
       .get(
         `${import.meta.env.VITE_API}/activities/${
           this.$route.params.activityId
-        }/users/${this.$route.params.userId}`
+        }/users/${this.$route.params.userId}`, {
+           headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
       )
       .then((response) => {
         this.activity = response.data;

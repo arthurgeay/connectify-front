@@ -9,6 +9,7 @@
           >
           <input
             type="email"
+            v-model="email"
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
@@ -21,15 +22,16 @@
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input
             type="password"
+            v-model="password"
             class="form-control"
             id="exampleInputPassword1"
           />
         </div>
         <div class="d-flex flex-column">
-          <button type="submit" class="btn btn-primary mb-3">Register</button>
+          <button type="submit" class="btn btn-primary mb-3" @click.prevent="register()">Register</button>
           <p class="text-center">
             Already a member?
-            <a @click="$router.push(`/login`)" class="link">Login</a>
+            <router-link to="/login">Login</router-link>
           </p>
         </div>
       </form>
@@ -37,4 +39,29 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import axios from "axios";
+
+export default {
+  name: "Registration",
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    async register() {
+      const response = await axios.post(`${import.meta.env.VITE_API}/register`, {
+        email: this.email,
+        password: this.password,
+      });
+
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      window.location = '/'
+    },
+  },
+};
+</script>

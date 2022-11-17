@@ -67,7 +67,12 @@ export default {
           `${import.meta.env.VITE_API}/activities/users/${
             this.activity.userId
           }`,
-          this.activity
+          this.activity,
+          {
+             headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+          }
         )
         .then((response) => {
           this.$router.push(`/activities/${this.activity.userId}`);

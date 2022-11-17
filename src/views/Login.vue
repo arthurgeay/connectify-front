@@ -31,13 +31,13 @@
           <button
             type="submit"
             class="btn btn-primary mb-3"
-            v-on:click="login()"
+            v-on:click.prevent="login()"
           >
             Login
           </button>
           <p class="text-center">
             Not a member?
-            <a @click="$router.push(`/registration`)" class="link">Register</a>
+            <router-link to="/registration">Register</router-link>
           </p>
         </div>
       </form>
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Login",
   data() {
@@ -55,20 +57,16 @@ export default {
     };
   },
   methods: {
-    login() {
-      if (this.input.email != "" && this.input.password != "") {
-        if (
-          this.input.email == this.$parent.mockAccount.email &&
-          this.input.password == this.$parent.mockAccount.password
-        ) {
-          this.$emit("authenticated", true);
-          this.$router.replace({ email: "secure" });
-        } else {
-          console.log("The email and / or password is incorrect");
-        }
-      } else {
-        console.log("An email and password must be present");
-      }
+    async login() {
+      const response = await axios.post(`${import.meta.env.VITE_API}/login`, {
+        email: this.email,
+        password: this.password,
+      });
+
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      window.location = '/'
     },
   },
 };

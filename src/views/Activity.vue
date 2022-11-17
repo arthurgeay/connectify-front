@@ -99,7 +99,11 @@ export default {
   methods: {
     async getActivities(userId) {
       await axios
-        .get(`${import.meta.env.VITE_API}/activities/users/${userId}`)
+        .get(`${import.meta.env.VITE_API}/activities/users/${userId}`, {
+           headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        })
         .then((response) => {
           this.activities = response.data;
         });
@@ -109,7 +113,12 @@ export default {
         .delete(
           `${import.meta.env.VITE_API}/activities/${id}/users/${
             this.$route.params.userId
-          }`
+          }`, 
+          {
+             headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+          }
         )
         .then(
           async (response) =>

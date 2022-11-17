@@ -9,14 +9,10 @@
 <script>
 export default {
   name: "LogoutButton",
-  data() {
-    return {
-      user: localStorage.getItem("user"),
-    };
-  },
   methods: {
     logout() {
-      window.localStorage.removeItem("user");
+      localStorage.clear()
+      this.$router.push('/login')
     },
   },
 };

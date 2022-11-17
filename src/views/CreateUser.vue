@@ -34,7 +34,11 @@ export default {
   methods: {
     async addUser() {
       await axios
-        .post(`${import.meta.env.VITE_API}/users`, this.user)
+        .post(`${import.meta.env.VITE_API}/users`, this.user, {
+           headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        })
         .then((response) => {
           this.users = response.data;
           this.$router.push(`/`);

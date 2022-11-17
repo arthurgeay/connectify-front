@@ -14,17 +14,20 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="navbar-nav mr-auto">
-          <router-link to="/" class="nav-item nav-link">Accueil</router-link>
-          <router-link to="/profile" class="nav-item nav-link"
+        <div class="navbar-nav mr-auto d-flex flex-row gap-5">
+          <router-link to="/" v-if="isLogged" class="nav-item nav-link">Accueil</router-link>
+          <router-link v-if="isLogged" to="/profile" class="nav-item nav-link"
             >Profil</router-link
           >
-          <router-link to="/login" class="nav-item nav-link"
+          <router-link
+            v-if="!isLogged"
+            to="/login"
+            class="nav-item nav-link"
             >Se connecter</router-link
           >
         </div>
         <ul class="navbar-nav mr-auto">
-          <div class="d-flex flex-row-reverse">
+          <div v-if="isLogged" class="d-flex flex-row-reverse">
             <LogoutButton />
           </div>
         </ul>
@@ -40,28 +43,13 @@ export default {
   name: "App",
   data() {
     return {
-      user: localStorage.getItem("user"),
+      isLogged: localStorage.getItem("token") ?? false,
     };
   },
   components: {
     LogoutButton,
   },
-  methods: {
-    logout() {
-      window.localStorage.removeItem("user");
-    },
-    updateUser(updateUser) {
-      this.user = updateUser;
-    },
-  },
   watch: {
-    user(user, userUpdated) {
-      if (userUpdated) {
-        this.updateUser(userUpdated);
-      } else if (!user && !userUpdated) {
-        this.logout();
-      }
-    },
   },
 };
 </script>
