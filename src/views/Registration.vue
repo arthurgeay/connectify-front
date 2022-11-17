@@ -27,7 +27,10 @@
         </div>
         <div class="d-flex flex-column">
           <button type="submit" class="btn btn-primary mb-3">Register</button>
-          <p>Already a member? <a @click="$router.push(`/login`)" class="link">Login</a></p>
+          <p class="text-center">
+            Already a member?
+            <a @click="$router.push(`/login`)" class="link">Login</a>
+          </p>
         </div>
       </form>
     </div>
