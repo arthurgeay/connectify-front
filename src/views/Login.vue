@@ -9,6 +9,7 @@
           >
           <input
             type="email"
+            v-model="email"
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
@@ -21,12 +22,13 @@
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input
             type="password"
+            v-model="password"
             class="form-control"
             id="exampleInputPassword1"
           />
         </div>
         <div class="d-flex flex-column">
-          <button type="submit" class="btn btn-primary mb-3">Login</button>
+          <button type="submit" class="btn btn-primary mb-3" v-on:click="login()">Login</button>
           <p class="text-center">
             Not a member?
             <a @click="$router.push(`/registration`)" class="link">Register</a>
@@ -36,3 +38,53 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "Login",
+  data() {
+    return {
+      input: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    login() {
+      if (this.email != "" && this.password != "") {
+        if (
+          this.email == this.$parent.mockAccount.email &&
+          this.password == this.$parent.mockAccount.password
+        ) {
+          this.$emit("authenticated", true);
+          this.$router.replace({ email: "secure" });
+        } else {
+          console.log("The email and / or password is incorrect");
+        }
+      } else {
+        console.log("An email and password must be present");
+      }
+    },
+  },
+};
+
+
+// export default {
+//   data() {
+//     return {
+//       email: "",
+//       password: ""
+//     };
+//   },
+
+//   methods: {
+//     submit() {
+//       this.$emit("submit", {
+//         email: this.email,
+//         password: this.password
+//       });
+//     }
+//   }
+// };
+</script>
