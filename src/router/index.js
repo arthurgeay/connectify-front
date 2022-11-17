@@ -9,23 +9,25 @@ import UpdateUser from "../views/UpdateUser.vue";
 import UpdateActivity from "../views/UpdateActivity.vue";
 
 const routes = [
-    { path: "/", component: Home },
-    { path: "/login", component: Login },
-    { path: "/registration", component: Registration },
-    { path: "/users/create", component: CreateUser },
-    { path: "/activities/:userId", component: Activity },
-    { path: "/activity/:userId/create", component: CreateActivity },
-    {
-        path: "/activity/:activityId/users/:userId/update",
-        component: UpdateActivity,
-        name: "UpdateActivity",
-    },
-    { path: "/users/:userId/update", component: UpdateUser },
+  { path: "/", component: Home },
+  // TODO: Create profile page
+  { path: "/profile", component: Home },
+  { path: "/login", component: Login },
+  { path: "/registration", component: Registration },
+  { path: "/users/create", component: CreateUser },
+  { path: "/activities/:userId", component: Activity },
+  { path: "/activity/:userId/create", component: CreateActivity },
+  {
+    path: "/activity/:activityId/users/:userId/update",
+    component: UpdateActivity,
+    name: "UpdateActivity",
+  },
+  { path: "/users/:userId/update", component: UpdateUser },
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes,
 });
 
 export default router;

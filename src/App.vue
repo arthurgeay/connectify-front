@@ -19,12 +19,13 @@
           <router-link to="/profile" class="nav-item nav-link"
             >Profil</router-link
           >
+          <router-link to="/login" class="nav-item nav-link"
+            >Se connecter</router-link
+          >
         </div>
         <ul class="navbar-nav mr-auto">
           <div class="d-flex flex-row-reverse">
-            <form class="d-flex" role="logout">
-              <button class="btn btn-danger" type="submit">Déconnexion</button>
-            </form>
+            <LogoutButton />
           </div>
         </ul>
       </div>
@@ -33,17 +34,46 @@
   <router-view></router-view>
 </template>
 
-<script></script>
+<script>
+import LogoutButton from "./components/LogoutButton.vue";
+export default {
+  name: "App",
+  data() {
+    return {
+      user: localStorage.getItem("user"),
+    };
+  },
+  components: {
+    LogoutButton,
+  },
+  methods: {
+    logout() {
+      window.localStorage.removeItem("user");
+    },
+    updateUser(updateUser) {
+      this.user = updateUser;
+    },
+  },
+  watch: {
+    user(user, userUpdated) {
+      if (userUpdated) {
+        this.updateUser(userUpdated);
+      } else if (!user && !userUpdated) {
+        this.logout();
+      }
+    },
+  },
+};
+</script>
 
 <style>
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #939aa2;
 }
 
 #nav a.router-link-exact-active {
-  color: whitesmoke;
-  background: rgb(20, 123, 220);
-  border-radius: 0.4rem;
+  font-weight: bold;
+  color: #2c3e50;
 }
 </style>

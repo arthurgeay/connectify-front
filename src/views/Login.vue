@@ -28,7 +28,9 @@
           />
         </div>
         <div class="d-flex flex-column">
-          <button type="submit" class="btn btn-primary mb-3" v-on:click="login()">Login</button>
+          <button type="submit" class="btn btn-primary mb-3" v-on:click="login">
+            Login
+          </button>
           <p class="text-center">
             Not a member?
             <a @click="$router.push(`/registration`)" class="link">Register</a>
@@ -52,10 +54,10 @@ export default {
   },
   methods: {
     login() {
-      if (this.email != "" && this.password != "") {
+      if (this.input.email != "" && this.input.password != "") {
         if (
-          this.email == this.$parent.mockAccount.email &&
-          this.password == this.$parent.mockAccount.password
+          this.input.email == this.$parent.mockAccount.email &&
+          this.input.password == this.$parent.mockAccount.password
         ) {
           this.$emit("authenticated", true);
           this.$router.replace({ email: "secure" });
@@ -68,7 +70,6 @@ export default {
     },
   },
 };
-
 
 // export default {
 //   data() {
