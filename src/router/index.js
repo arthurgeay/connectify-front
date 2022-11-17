@@ -7,11 +7,11 @@ import CreateActivity from "../views/CreateActivity.vue";
 import CreateUser from "../views/CreateUser.vue";
 import UpdateUser from "../views/UpdateUser.vue";
 import UpdateActivity from "../views/UpdateActivity.vue";
-
+import Profil from "../views/Profil.vue";
 const routes = [
   { path: "/", component: Home },
   // TODO: Create profile page
-  { path: "/profile", component: Home },
+  { path: "/profile", component: Profil },
   { path: "/login", component: Login },
   { path: "/registration", component: Registration },
   { path: "/users/create", component: CreateUser },

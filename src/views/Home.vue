@@ -53,21 +53,23 @@ export default {
   },
   methods: {
     async getUsers() {
-      await axios.get(`${import.meta.env.VITE_API}/users`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      }).then((response) => {
-        this.users = response.data;
-      });
+      await axios
+        .get(`${import.meta.env.VITE_API}/users`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          this.users = response.data;
+        });
     },
 
     async deleteUser(userId) {
       await axios
         .delete(`${import.meta.env.VITE_API}/users/${userId}`, {
-           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         })
         .then(async (response) => {
           await this.getUsers();
@@ -75,6 +77,9 @@ export default {
     },
   },
   mounted() {
+    if (!localStorage.getItem("token") && !localStorage.getItem("user")) {
+      return this.$router.push("/login");
+    }
     this.getUsers();
   },
 };
