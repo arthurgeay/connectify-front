@@ -28,7 +28,13 @@
           />
         </div>
         <div class="d-flex flex-column">
-          <button type="submit" class="btn btn-primary mb-3" v-on:click="login()">Login</button>
+          <button
+            type="submit"
+            class="btn btn-primary mb-3"
+            v-on:click="login()"
+          >
+            Login
+          </button>
           <p class="text-center">
             Not a member?
             <a @click="$router.push(`/registration`)" class="link">Register</a>
@@ -44,10 +50,8 @@ export default {
   name: "Login",
   data() {
     return {
-      input: {
-        email: "",
-        password: "",
-      },
+      email: "",
+      password: ""
     };
   },
   methods: {
@@ -68,23 +72,4 @@ export default {
     },
   },
 };
-
-
-// export default {
-//   data() {
-//     return {
-//       email: "",
-//       password: ""
-//     };
-//   },
-
-//   methods: {
-//     submit() {
-//       this.$emit("submit", {
-//         email: this.email,
-//         password: this.password
-//       });
-//     }
-//   }
-// };
 </script>
