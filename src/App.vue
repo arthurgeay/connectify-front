@@ -16,6 +16,7 @@
 
         <div class="navbar-nav mr-auto d-flex flex-row gap-5">
           <router-link to="/" v-if="isLogged" class="nav-item nav-link">Accueil</router-link>
+          <router-link to="/map" v-if="isLogged" class="nav-item nav-link">Carte</router-link>
           <router-link v-if="isLogged" to="/profile" class="nav-item nav-link"
             >Profil</router-link
           >
@@ -37,13 +38,14 @@
   <router-view></router-view>
 </template>
 
+
 <script>
 import LogoutButton from "./components/LogoutButton.vue";
 export default {
   name: "App",
   data() {
     return {
-      isLogged: localStorage.getItem("token") ?? false,
+      isLogged:true,
     };
   },
   components: {
