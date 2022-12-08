@@ -13,8 +13,8 @@ const routes = [
   { path: "/", component: Home },
   // TODO: Create profile page
   { path: "/profile", component: Profil },
-  { path: "/login", component: Activity },
-  { path: "/registration", component: Activity },
+  { path: "/login", component: Login },
+  { path: "/registration", component: Registration },
   { path: "/users/create", component: CreateUser },
   { path: "/activities/:userId", component: Activity },
   { path: "/activity/:userId/create", component: CreateActivity },
