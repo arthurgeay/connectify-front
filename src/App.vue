@@ -45,7 +45,7 @@ export default {
   name: "App",
   data() {
     return {
-      isLogged:true,
+    isLogged: localStorage.getItem("token") ?? false,
     };
   },
   components: {
