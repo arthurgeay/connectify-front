@@ -58,10 +58,13 @@ export default {
   },
   methods: {
     async register() {
-      const response = await axios.post(`/register`, {
-        email: this.email,
-        password: this.password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API}/register`,
+        {
+          email: this.email,
+          password: this.password,
+        }
+      );
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));

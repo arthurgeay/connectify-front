@@ -57,15 +57,27 @@ export default {
   },
   methods: {
     async getUsers() {
-      await axios.get(`/users`, {}).then((response) => {
-        this.users = response.data;
-      });
+      await axios
+        .get(`${import.meta.env.VITE_API}/users`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          this.users = response.data;
+        });
     },
 
     async deleteUser(userId) {
-      await axios.delete(`/users/${userId}`).then(async (response) => {
-        await this.getUsers();
-      });
+      await axios
+        .delete(`${import.meta.env.VITE_API}/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then(async (response) => {
+          await this.getUsers();
+        });
     },
   },
   mounted() {

@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     async login() {
-      const response = await axios.post(`/login`, {
+      const response = await axios.post(`${import.meta.env.VITE_API}/login`, {
         email: this.email,
         password: this.password,
       });
