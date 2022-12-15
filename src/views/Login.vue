@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     async login() {
-      const response = await axios.post(`${import.meta.env.VITE_API}/login`, {
+      const response = await axios.post(`/login`, {
         email: this.email,
         password: this.password,
       });
@@ -66,7 +66,7 @@ export default {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
-      window.location = '/'
+      window.location = "/";
     },
   },
 };

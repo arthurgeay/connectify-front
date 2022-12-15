@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="users.length > 0">
     <div class="d-flex justify-content-between mb-5 align-items-center<">
       <p class="mb-0">Liste des utilisateurs</p>
       <button class="btn btn-light" @click="$router.push(`/users/create`)">
@@ -39,13 +39,17 @@
       </li>
     </ul>
   </div>
+  <div class="container" v-else>
+    <LoadingCircle />
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+import LoadingCircle from "../components/LoadingCircle.vue";
 export default {
   name: "Home",
-  components: {},
+  components: { LoadingCircle },
   data() {
     return {
       users: [],
@@ -53,27 +57,15 @@ export default {
   },
   methods: {
     async getUsers() {
-      await axios
-        .get(`${import.meta.env.VITE_API}/users`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => {
-          this.users = response.data;
-        });
+      await axios.get(`/users`, {}).then((response) => {
+        this.users = response.data;
+      });
     },
 
     async deleteUser(userId) {
-      await axios
-        .delete(`${import.meta.env.VITE_API}/users/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then(async (response) => {
-          await this.getUsers();
-        });
+      await axios.delete(`/users/${userId}`).then(async (response) => {
+        await this.getUsers();
+      });
     },
   },
   mounted() {

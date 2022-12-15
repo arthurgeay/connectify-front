@@ -64,15 +64,8 @@ export default {
     async updateActivity() {
       await axios
         .put(
-          `${import.meta.env.VITE_API}/activities/${
-            this.$route.params.activityId
-          }/users/${this.$route.params.userId}`,
-          this.activity,
-          {
-             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-          }
+          `/activities/${this.$route.params.activityId}/users/${this.$route.params.userId}`,
+          this.activity
         )
         .then((response) => {
           this.$router.push(`/activities/${this.$route.params.userId}`);
@@ -82,13 +75,7 @@ export default {
   async mounted() {
     await axios
       .get(
-        `${import.meta.env.VITE_API}/activities/${
-          this.$route.params.activityId
-        }/users/${this.$route.params.userId}`, {
-           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
+        `/activities/${this.$route.params.activityId}/users/${this.$route.params.userId}`
       )
       .then((response) => {
         this.activity = response.data;

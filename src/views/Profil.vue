@@ -33,11 +33,7 @@ export default {
   methods: {
     async getProfile() {
       await axios
-        .get(`${import.meta.env.VITE_API}/me`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
+        .get(`/me`)
         .then((response) => {
           this.hasTooManyRequests = false;
 

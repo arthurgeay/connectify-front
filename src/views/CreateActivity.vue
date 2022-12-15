@@ -63,17 +63,7 @@ export default {
   methods: {
     async createActivity() {
       await axios
-        .post(
-          `${import.meta.env.VITE_API}/activities/users/${
-            this.activity.userId
-          }`,
-          this.activity,
-          {
-             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-          }
-        )
+        .post(`/activities/users/${this.activity.userId}`, this.activity)
         .then((response) => {
           this.$router.push(`/activities/${this.activity.userId}`);
         });

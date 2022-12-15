@@ -28,7 +28,13 @@
           />
         </div>
         <div class="d-flex flex-column">
-          <button type="submit" class="btn btn-primary mb-3" @click.prevent="register()">Register</button>
+          <button
+            type="submit"
+            class="btn btn-primary mb-3"
+            @click.prevent="register()"
+          >
+            Register
+          </button>
           <p class="text-center">
             Already a member?
             <router-link to="/login">Login</router-link>
@@ -52,7 +58,7 @@ export default {
   },
   methods: {
     async register() {
-      const response = await axios.post(`${import.meta.env.VITE_API}/register`, {
+      const response = await axios.post(`/register`, {
         email: this.email,
         password: this.password,
       });
@@ -60,7 +66,7 @@ export default {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
-      window.location = '/'
+      window.location = "/";
     },
   },
 };
