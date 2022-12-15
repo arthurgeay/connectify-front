@@ -10,7 +10,7 @@ const app = createApp(App);
 
 axios.defaults.baseURL = `${import.meta.env.VITE_API}`;
 
-axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
+axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
   "token"
 )}`;
 
