@@ -2,19 +2,39 @@
   <form @submit.prevent="createActivity">
     <div class="mb-3">
       <label class="form-label">Type</label>
-      <input type="text" class="form-control" v-model="activity.type" />
+      <input
+        type="text"
+        class="form-control"
+        v-model="activity.type"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Date</label>
-      <input type="date" class="form-control" v-model="activity.date" />
+      <input
+        type="date"
+        class="form-control"
+        v-model="activity.date"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Distance</label>
-      <input type="number" class="form-control" v-model="activity.distance" />
+      <input
+        type="number"
+        class="form-control"
+        v-model="activity.distance"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Durée</label>
-      <input type="number" class="form-control" v-model="activity.duration" />
+      <input
+        type="number"
+        class="form-control"
+        v-model="activity.duration"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Fréquence cardiaque moyenne</label>
@@ -22,6 +42,7 @@
         type="number"
         class="form-control"
         v-model="activity.averageHeartRate"
+        required
       />
     </div>
     <div class="mb-3">
@@ -30,11 +51,17 @@
         type="number"
         class="form-control"
         v-model="activity.maxHeartRate"
+        required
       />
     </div>
     <div class="mb-3">
       <label class="form-label">Nombre de calories dépensées</label>
-      <input type="number" class="form-control" v-model="activity.calories" />
+      <input
+        type="number"
+        class="form-control"
+        v-model="activity.calories"
+        required
+      />
     </div>
 
     <button type="submit" class="btn btn-primary">Créer</button>

@@ -2,16 +2,21 @@
   <form @submit.prevent="updateUser">
     <div class="mb-3">
       <label class="form-label">Nom complet</label>
-      <input type="text" class="form-control" v-model="user.fullname" />
+      <input
+        type="text"
+        class="form-control"
+        v-model="user.fullname"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Age</label>
-      <input type="number" class="form-control" v-model="user.age" />
+      <input type="number" class="form-control" v-model="user.age" required />
     </div>
 
     <div class="mb-3">
       <label class="form-label">Ville</label>
-      <input type="text" class="form-control" v-model="user.city" />
+      <input type="text" class="form-control" v-model="user.city" required />
     </div>
 
     <button type="submit" class="btn btn-primary">Modifier</button>

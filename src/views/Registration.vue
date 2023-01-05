@@ -16,6 +16,7 @@
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
+            required
           />
           <div id="emailHelp" class="form-text">
             We'll never share your email with anyone else.
@@ -28,6 +29,7 @@
             v-model="password"
             class="form-control"
             id="exampleInputPassword1"
+            required
           />
         </div>
         <div class="d-flex flex-column">
