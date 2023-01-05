@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <ul class="list-group list-group-numbered">
+    <ul class="list-group list-group-numbered" :aria-busy="this.isLoading">
       <li
         class="list-group-item d-flex justify-content-between align-items-start"
         aria-current="true"
@@ -39,17 +39,13 @@
       </li>
     </ul>
   </div>
-  <div class="container" v-if="isLoading">
-    <LoadingCircle />
-  </div>
 </template>
 
 <script>
 import axios from "axios";
-import LoadingCircle from "../components/LoadingCircle.vue";
+
 export default {
   name: "Home",
-  components: { LoadingCircle },
   data() {
     return {
       users: [],
