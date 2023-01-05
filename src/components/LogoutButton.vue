@@ -1,6 +1,6 @@
 <template>
-  <form class="d-flex" role="logout">
-    <button class="btn btn-danger" type="submit" v-on:click="logout">
+  <form style="margin-bottom: 0" role="logout">
+    <button type="submit" v-on:click="logout">
       Déconnexion
     </button>
   </form>

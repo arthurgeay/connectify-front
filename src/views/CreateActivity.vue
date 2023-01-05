@@ -45,14 +45,19 @@ import axios from "axios";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
+const options = {
+  position: "top-right",
 
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 export default {
   name: "CreateActivity",
   components: {},
   data() {
     return {
       activity: {
-        userId: "",
         date: "",
         calories: "",
         distance: "",
@@ -67,9 +72,9 @@ export default {
   methods: {
     async createActivity() {
       try {
-        const postActivity = await axios.post(
+        const response = await axios.post(
           `${import.meta.env.VITE_API}/activities/users/${
-            this.activity.userId
+            this.$route.params.userId
           }`,
           this.activity,
           {
@@ -79,19 +84,17 @@ export default {
           }
         );
 
-        if (postActivity.status === 200) {
+        if (response.status === 200) {
           this.$router.push(`/activities/${this.activity.userId}`);
         }
       } catch (error) {
         console.log(error);
         toast.error(
-          "Une erreur est survenue, veuillez vérifier les données saisies"
+          "Une erreur est survenue, veuillez vérifier les données saisies",
+          options
         );
       }
     },
-  },
-  async mounted() {
-    this.activity.userId = this.$route.params.userId;
   },
 };
 </script>

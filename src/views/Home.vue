@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="users.length > 0">
+  <div class="container" v-if="users.length >= 0">
     <div class="d-flex justify-content-between mb-5 align-items-center<">
       <p class="mb-0">Liste des utilisateurs</p>
       <button class="btn btn-light" @click="$router.push(`/users/create`)">
@@ -39,7 +39,7 @@
       </li>
     </ul>
   </div>
-  <div class="container" v-else>
+  <div class="container" v-if="isLoading">
     <LoadingCircle />
   </div>
 </template>
@@ -50,48 +50,61 @@ import LoadingCircle from "../components/LoadingCircle.vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
+const options = {
+  position: "top-right",
+
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 export default {
   name: "Home",
   components: { LoadingCircle },
   data() {
     return {
       users: [],
+      isLoading: false,
     };
   },
   methods: {
     async getUsers() {
-      const getUsersData = await axios.get(
-        `${import.meta.env.VITE_API}/users`,
-        {
+      this.isLoading = true;
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API}/users`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
-      );
+        });
 
-      if (getUsersData.status === 200) {
-        this.users = getUsersData.data;
-      } else {
+        if (response.status === 200) {
+          this.users = response.data;
+          this.isLoading = false;
+        }
+      } catch (error) {
         toast.error(
-          "Une erreur est survenue lors de la récupérations des utilisateurs"
+          "Une erreur est survenue lors de la récupérations des utilisateurs",
+          options
         );
       }
     },
 
     async deleteUser(userId) {
-      const deleteUserById = await axios.delete(
-        `${import.meta.env.VITE_API}/users/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      try {
+        const response = await axios.delete(
+          `${import.meta.env.VITE_API}/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          await this.getUsers();
         }
-      );
-      if (deleteUserById.status === 200) {
-        await this.getUsers();
-      } else {
+      } catch (error) {
         toast.error(
-          "Une erreur est survenue lors de la suppression de votre compte"
+          "Une erreur est survenue lors de la suppression de votre compte",
+          options
         );
       }
     },

@@ -22,6 +22,12 @@ import axios from "axios";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
+const options = {
+  position: "top-right",
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 export default {
   name: "CreateUser",
   components: {},
@@ -36,20 +42,22 @@ export default {
   },
   methods: {
     async addUser() {
-      const createUser = await axios.post(
-        `${import.meta.env.VITE_API}/users`,
-        this.user,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      try {
+        const createUser = await axios.post(
+          `${import.meta.env.VITE_API}/users`,
+          this.user,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (createUser.status === 200) {
+          this.users = createUser.data;
+          this.$router.push(`/`);
         }
-      );
-      if (createUser.status === 200) {
-        this.users = createUser.data;
-        this.$router.push(`/`);
-      } else {
-        toast.error("Une erreur est survenue");
+      } catch (error) {
+        toast.error("Une erreur est survenue", options);
       }
     },
     async mounted() {

@@ -80,20 +80,36 @@ export default {
     },
   },
   async mounted() {
-    await axios
-      .get(
-        `${import.meta.env.VITE_API}/activities/${
-          this.$route.params.activityId
-        }/users/${this.$route.params.userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((response) => {
-        this.activity = response.data;
-      });
+    const response = await axios.get(
+      `${import.meta.env.VITE_API}/activities/${
+        this.$route.params.activityId
+      }/users/${this.$route.params.userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    const {
+      date,
+      calories,
+      distance,
+      duration,
+      averageHeartRate,
+      maxHeartRate,
+      type,
+    } = response.data;
+
+    this.activity = {
+      date,
+      calories,
+      distance,
+      duration,
+      averageHeartRate,
+      maxHeartRate,
+      type,
+    };
   },
 };
 </script>

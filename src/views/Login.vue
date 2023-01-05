@@ -50,9 +50,17 @@
 
 <script>
 import axios from "axios";
+import { onMounted } from "vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
+const options = {
+  position: "top-right",
+
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 
 export default {
   name: "Login",
@@ -64,21 +72,30 @@ export default {
   },
   methods: {
     async login() {
-      const response = await axios.post(`${import.meta.env.VITE_API}/login`, {
-        email: this.email,
-        password: this.password,
-      });
-      if (response.status === 200) {
-        toast.success("Vous êtes connecté !");
-      } else {
-        toast.error("Une erreur est survenue, veuillez réessayer");
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API}/login`, {
+          email: this.email,
+          password: this.password,
+        });
+        if (response.status === 200) {
+          console.log("success !!!");
+          toast.success("Vous êtes connecté", options);
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          // this.$router.push("/login");
+          window.location = "/";
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Une erreur est survenue, veuillez réessayer", options);
       }
-
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-
-      window.location = "/";
     },
   },
+  mounted() {},
 };
 </script>
+<style>
+.Vue-Toastification__toastCustom {
+  max-height: 300px !important;
+}
+</style>

@@ -91,7 +91,13 @@ import axios from "axios";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
+const options = {
+  position: "top-right",
 
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 export default {
   name: "Activity",
   components: {},
@@ -102,18 +108,18 @@ export default {
   },
   methods: {
     async getActivities(userId) {
-      const activitiesData = await axios.get(
-        `${import.meta.env.VITE_API}/activities/users/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      this.activities = activitiesData.data;
-
-      if (activitiesData.status !== 200) {
-        toast.error("Erreur lors de la récupération des activités");
+      try {
+        const activitiesData = await axios.get(
+          `${import.meta.env.VITE_API}/activities/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        this.activities = activitiesData.data;
+      } catch (error) {
+        toast.error("Erreur lors de la récupération des activités"), options;
       }
     },
     async deleteActivity(id) {

@@ -1,37 +1,14 @@
 <template>
-  <nav v-if="isLogged" class="navbar fixed-top navbar-expand-xl bg-light">
-    <div class="container-fluid">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="navbar-nav mr-auto d-flex flex-row gap-5">
-        <router-link to="/" v-if="isLogged" class="nav-item nav-link">Accueil</router-link>
-        <router-link to="/map" v-if="isLogged" class="nav-item nav-link">Carte</router-link>
-        <router-link v-if="isLogged" to="/profile" class="nav-item nav-link"
-          >Profil</router-link
-        >
-        <router-link
-          v-if="!isLogged"
-          to="/login"
-          class="nav-item nav-link"
-          >Se connecter</router-link
-        >
-      </div>
-      <ul class="navbar-nav mr-auto">
-        <div v-if="isLogged" class="d-flex flex-row-reverse">
-          <LogoutButton />
-        </div>
-      </ul>
-    </div>
+  <nav v-if="isLogged">
+    <ul>
+      <li><strong>Connectify</strong></li>
+    </ul>
+    <ul>
+      <li><router-link to="/">Accueil</router-link></li>
+      <li><router-link to="/map">Carte</router-link></li>
+      <li><router-link to="/profile">Profil</router-link></li>
+      <li><LogoutButton /></li>
+    </ul>
   </nav>
   <router-view></router-view>
 </template>
@@ -53,15 +30,3 @@ export default {
   },
 };
 </script>
-
-<style>
-/* #nav a {
-  font-weight: bold;
-  color: #939aa2;
-}
-
-#nav a.router-link-exact-active {
-  font-weight: bold;
-  color: #2c3e50;
-} */
-</style>
