@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="users.length > 0">
+  <div class="container" v-if="users.length >= 0">
     <div class="d-flex justify-content-between mb-5 align-items-center<">
       <p class="mb-0">Liste des utilisateurs</p>
       <button class="btn btn-light" @click="$router.push(`/users/create`)">
@@ -39,7 +39,7 @@
       </li>
     </ul>
   </div>
-  <div class="container" v-else>
+  <div class="container" v-if="isLoading">
     <LoadingCircle />
   </div>
 </template>
@@ -53,19 +53,21 @@ export default {
   data() {
     return {
       users: [],
+      isLoading: false,
     };
   },
   methods: {
     async getUsers() {
-      await axios
-        .get(`${import.meta.env.VITE_API}/users`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => {
-          this.users = response.data;
-        });
+      this.isLoading = true;
+
+      const response = await axios.get(`${import.meta.env.VITE_API}/users`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      this.users = response.data;
+      this.isLoading = false;
     },
 
     async deleteUser(userId) {
