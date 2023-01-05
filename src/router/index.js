@@ -11,7 +11,6 @@ import Profil from "../views/Profil.vue";
 import Map from "../views/Map.vue";
 const routes = [
   { path: "/", component: Home },
-  // TODO: Create profile page
   { path: "/profile", component: Profil },
   { path: "/login", component: Login },
   { path: "/registration", component: Registration },
