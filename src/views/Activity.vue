@@ -109,7 +109,7 @@ export default {
   methods: {
     async getActivities(userId) {
       try {
-        const activitiesData = await axios.get(
+        const response = await axios.get(
           `${import.meta.env.VITE_API}/activities/users/${userId}`,
           {
             headers: {
@@ -117,7 +117,7 @@ export default {
             },
           }
         );
-        this.activities = activitiesData.data;
+        this.activities = response.data;
       } catch (error) {
         toast.error("Erreur lors de la récupération des activités"), options;
       }

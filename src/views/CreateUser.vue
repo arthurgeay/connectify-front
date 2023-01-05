@@ -29,7 +29,7 @@ const options = {
   closeOnClick: true,
 };
 export default {
-  name: "CreateUser",
+  name: "response",
   components: {},
   data() {
     return {
@@ -43,7 +43,7 @@ export default {
   methods: {
     async addUser() {
       try {
-        const createUser = await axios.post(
+        const response = await axios.post(
           `${import.meta.env.VITE_API}/users`,
           this.user,
           {
@@ -52,8 +52,8 @@ export default {
             },
           }
         );
-        if (createUser.status === 200) {
-          this.users = createUser.data;
+        if (response.status === 200) {
+          this.users = response.data;
           this.$router.push(`/`);
         }
       } catch (error) {
