@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center">
-      <h1 class="mb-5">Sign up</h1>
+    <div class="row justify-content-center align-content-center" style="height: 100vh">
+      <h1 class="mb-5 text-center" style="height: fit-content">Sign up</h1>
       <form class="text-start w-50">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label"
