@@ -1,6 +1,6 @@
 <template>
   <form style="margin-bottom: 0" role="logout">
-    <button type="submit" v-on:click="logout">
+    <button type="submit" class="outline" v-on:click="logout">
       Déconnexion
     </button>
   </form>
