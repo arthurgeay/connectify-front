@@ -48,7 +48,6 @@ export default {
   data() {
     return {
       activity: {
-        userId: "",
         date: "",
         calories: "",
         distance: "",
@@ -65,7 +64,7 @@ export default {
       await axios
         .post(
           `${import.meta.env.VITE_API}/activities/users/${
-            this.activity.userId
+            this.$route.params.userId
           }`,
           this.activity,
           {
@@ -75,12 +74,9 @@ export default {
           }
         )
         .then((response) => {
-          this.$router.push(`/activities/${this.activity.userId}`);
+          this.$router.push(`/activities/${this.$route.params.userId}`);
         });
     },
-  },
-  async mounted() {
-    this.activity.userId = this.$route.params.userId;
   },
 };
 </script>
