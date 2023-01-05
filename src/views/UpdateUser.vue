@@ -44,11 +44,11 @@ export default {
     },
   },
   async mounted() {
-    await axios
-      .get(`${import.meta.env.VITE_API}/users/${this.$route.params.userId}`)
-      .then((response) => {
-        this.user = response.data;
-      });
+    const response = await axios.get(
+      `${import.meta.env.VITE_API}/users/${this.$route.params.userId}`
+    );
+    const { fullname, age, city } = response.data;
+    this.user = { fullname, age, city };
   },
 };
 </script>

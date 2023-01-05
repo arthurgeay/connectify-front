@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <article class="d-flex justify-between" aria-current="true" v-for="user in users" v-bind:key="user">
+    <article class="d-flex justify-between" :aria-busy="this.isLoading" aria-current="true" v-for="user in users" v-bind:key="user">
       <a>
         <div>{{ user.fullname }} - {{ user.age }} ans</div>
         {{ user.city }}
@@ -25,33 +25,31 @@
       </div>
     </article>
   </div>
-  <div class="container" v-else>
-    <LoadingCircle />
-  </div>
 </template>
 
 <script>
 import axios from "axios";
-import LoadingCircle from "../components/LoadingCircle.vue";
+
 export default {
   name: "Home",
-  components: { LoadingCircle },
   data() {
     return {
       users: [],
+      isLoading: false,
     };
   },
   methods: {
     async getUsers() {
-      await axios
-        .get(`${import.meta.env.VITE_API}/users`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => {
-          this.users = response.data;
-        });
+      this.isLoading = true;
+
+      const response = await axios.get(`${import.meta.env.VITE_API}/users`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      this.users = response.data;
+      this.isLoading = false;
     },
 
     async deleteUser(userId) {
