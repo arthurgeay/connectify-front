@@ -23,7 +23,7 @@ import { useToast } from "vue-toastification";
 
 const toast = useToast();
 export default {
-  name: "CreateUser",
+  name: "response",
   components: {},
   data() {
     return {
@@ -36,19 +36,21 @@ export default {
   },
   methods: {
     async addUser() {
-      const createUser = await axios.post(
-        `${import.meta.env.VITE_API}/users`,
-        this.user,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API}/users`,
+          this.user,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          this.users = response.data;
+          this.$router.push(`/`);
         }
-      );
-      if (createUser.status === 200) {
-        this.users = createUser.data;
-        this.$router.push(`/`);
-      } else {
+      } catch (error) {
         toast.error("Une erreur est survenue");
       }
     },

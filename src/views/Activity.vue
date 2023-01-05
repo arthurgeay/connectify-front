@@ -102,18 +102,18 @@ export default {
   },
   methods: {
     async getActivities(userId) {
-      const activitiesData = await axios.get(
-        `${import.meta.env.VITE_API}/activities/users/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      this.activities = activitiesData.data;
-
-      if (activitiesData.status !== 200) {
-        toast.error("Erreur lors de la récupération des activités");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API}/activities/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        this.activities = response.data;
+      } catch (error) {
+        toast.error("Erreur lors de la récupération des activités"), options;
       }
     },
     async deleteActivity(id) {
