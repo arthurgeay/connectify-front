@@ -23,3 +23,6 @@ button {
     gap: 15px;
 }
 
+#map > div {
+    border-radius: 0.25rem;
+}
