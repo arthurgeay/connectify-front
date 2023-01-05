@@ -5,6 +5,8 @@ import router from "./router";
 import axios from "axios";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 const app = createApp(App);
 
@@ -28,5 +30,6 @@ axios.interceptors.response.use(
   }
 );
 
+app.use(Toast);
 app.use(router);
 app.mount("#app");

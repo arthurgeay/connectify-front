@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center align-content-center" style="height: 100vh">
+    <div
+      class="row justify-content-center align-content-center"
+      style="height: 100vh"
+    >
       <h1 class="mb-5 text-center" style="height: fit-content">Sign in</h1>
       <form class="text-start w-50">
         <div class="mb-3">
@@ -47,6 +50,9 @@
 
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 export default {
   name: "Login",
@@ -62,6 +68,11 @@ export default {
         email: this.email,
         password: this.password,
       });
+      if (response.status === 200) {
+        toast.success("Vous êtes connecté !");
+      } else {
+        toast.error("Une erreur est survenue, veuillez réessayer");
+      }
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));

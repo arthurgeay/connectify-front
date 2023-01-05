@@ -47,6 +47,9 @@
 <script>
 import axios from "axios";
 import LoadingCircle from "../components/LoadingCircle.vue";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 export default {
   name: "Home",
   components: { LoadingCircle },
@@ -57,27 +60,40 @@ export default {
   },
   methods: {
     async getUsers() {
-      await axios
-        .get(`${import.meta.env.VITE_API}/users`, {
+      const getUsersData = await axios.get(
+        `${import.meta.env.VITE_API}/users`,
+        {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        })
-        .then((response) => {
-          this.users = response.data;
-        });
+        }
+      );
+
+      if (getUsersData.status === 200) {
+        this.users = getUsersData.data;
+      } else {
+        toast.error(
+          "Une erreur est survenue lors de la récupérations des utilisateurs"
+        );
+      }
     },
 
     async deleteUser(userId) {
-      await axios
-        .delete(`${import.meta.env.VITE_API}/users/${userId}`, {
+      const deleteUserById = await axios.delete(
+        `${import.meta.env.VITE_API}/users/${userId}`,
+        {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        })
-        .then(async (response) => {
-          await this.getUsers();
-        });
+        }
+      );
+      if (deleteUserById.status === 200) {
+        await this.getUsers();
+      } else {
+        toast.error(
+          "Une erreur est survenue lors de la suppression de votre compte"
+        );
+      }
     },
   },
   mounted() {

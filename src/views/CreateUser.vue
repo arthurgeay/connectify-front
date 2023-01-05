@@ -19,6 +19,9 @@
 </template>
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 export default {
   name: "CreateUser",
   components: {},
@@ -33,16 +36,21 @@ export default {
   },
   methods: {
     async addUser() {
-      await axios
-        .post(`${import.meta.env.VITE_API}/users`, this.user, {
+      const createUser = await axios.post(
+        `${import.meta.env.VITE_API}/users`,
+        this.user,
+        {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        })
-        .then((response) => {
-          this.users = response.data;
-          this.$router.push(`/`);
-        });
+        }
+      );
+      if (createUser.status === 200) {
+        this.users = createUser.data;
+        this.$router.push(`/`);
+      } else {
+        toast.error("Une erreur est survenue");
+      }
     },
     async mounted() {
       this.activity.userId = this.$route.params.userId;

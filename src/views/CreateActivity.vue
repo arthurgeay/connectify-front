@@ -42,6 +42,10 @@
 </template>
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+
 export default {
   name: "CreateActivity",
   components: {},
@@ -62,8 +66,8 @@ export default {
   },
   methods: {
     async createActivity() {
-      await axios
-        .post(
+      try {
+        const postActivity = await axios.post(
           `${import.meta.env.VITE_API}/activities/users/${
             this.activity.userId
           }`,
@@ -73,10 +77,17 @@ export default {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
-        )
-        .then((response) => {
+        );
+
+        if (postActivity.status === 200) {
           this.$router.push(`/activities/${this.activity.userId}`);
-        });
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(
+          "Une erreur est survenue, veuillez vérifier les données saisies"
+        );
+      }
     },
   },
   async mounted() {
