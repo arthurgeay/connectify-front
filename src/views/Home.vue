@@ -104,36 +104,12 @@ export default {
         );
       }
     },
-    async callSoapApi() {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API}/temperatures/celsius`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (response.status === 200) {
-          toast.info(
-            "La température actuelle est de " + response.data + "°C",
-            options
-          );
-        }
-      } catch (error) {
-        toast.error(
-          "Une erreur est survenue lors de la récupération de la température",
-          options
-        );
-      }
-    },
   },
   mounted() {
     if (!localStorage.getItem("token") && !localStorage.getItem("user")) {
       return this.$router.push("/login");
     }
     this.getUsers();
-    this.callSoapApi();
   },
 };
 </script>
