@@ -112,7 +112,7 @@ export default {
         );
 
         if (response.status === 201) {
-          this.$router.push(`/activities/${this.activity.userId}`);
+          this.$router.push(`/activities/${this.$route.params.userId}`);
         }
       } catch (error) {
         console.log(error);

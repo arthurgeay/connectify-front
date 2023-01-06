@@ -1,5 +1,5 @@
 <template>
-  <div v-if="users.length > 0">
+  <div v-if="users.length >= 0">
     <div class="d-flex justify-between mb-5">
       <p>Liste des utilisateurs</p>
       <button class="w-fit" @click="$router.push(`/users/create`)">
@@ -89,12 +89,17 @@ export default {
             },
           }
         );
-        if (response.status === 200) {
+        if (
+          response.status === 200 ||
+          response.status === 201 ||
+          response.status === 204
+        ) {
           await this.getUsers();
+          toast.success("Utilisateur supprimé", options);
         }
       } catch (error) {
         toast.error(
-          "Une erreur est survenue lors de la suppression de votre compte",
+          "Une erreur est survenue lors de la suppression de cet utilisateur",
           options
         );
       }

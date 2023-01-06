@@ -24,6 +24,15 @@
 </template>
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const options = {
+  position: "top-right",
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 export default {
   name: "UpdateUser",
   components: {},
@@ -38,14 +47,17 @@ export default {
   },
   methods: {
     async updateUser() {
-      await axios
-        .put(
+      try {
+        const response = await axios.put(
           `${import.meta.env.VITE_API}/users/${this.$route.params.userId}`,
           this.user
-        )
-        .then((response) => {
-          this.$router.push(`/`);
-        });
+        );
+        toast.success("Utilisateur modifié", options);
+
+        this.$router.push(`/`);
+      } catch (error) {
+        toast.error("Une erreur est survenue", options);
+      }
     },
   },
   async mounted() {

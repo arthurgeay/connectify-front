@@ -64,6 +64,16 @@
 </template>
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const options = {
+  position: "top-right",
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
+
 export default {
   name: "UpdateActivity",
   components: {},
@@ -84,8 +94,8 @@ export default {
   },
   methods: {
     async updateActivity() {
-      await axios
-        .put(
+      try {
+        const response = await axios.put(
           `${import.meta.env.VITE_API}/activities/${
             this.$route.params.activityId
           }/users/${this.$route.params.userId}`,
@@ -95,10 +105,12 @@ export default {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
-        )
-        .then((response) => {
-          this.$router.push(`/activities/${this.$route.params.userId}`);
-        });
+        );
+        toast.success("Activité mise à jour", options);
+        this.$router.push(`/activities/${this.$route.params.userId}`);
+      } catch (error) {
+        toast.error("Une erreur est survenue", options);
+      }
     },
   },
   async mounted() {
