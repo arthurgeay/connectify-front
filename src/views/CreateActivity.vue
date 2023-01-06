@@ -111,7 +111,8 @@ export default {
           }
         );
 
-        if (response.status === 201) {
+        if (response.status === 200 || response.status === 201) {
+          toast.success("Activité créée", options);
           this.$router.push(`/activities/${this.$route.params.userId}`);
         }
       } catch (error) {
