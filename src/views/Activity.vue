@@ -123,8 +123,8 @@ export default {
       }
     },
     async deleteActivity(id) {
-      await axios
-        .delete(
+      try {
+        const response = await axios.delete(
           `${import.meta.env.VITE_API}/activities/${id}/users/${
             this.$route.params.userId
           }`,
@@ -133,17 +133,15 @@ export default {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
-        )
-        .then(
-          async (response) =>
-            await this.getActivities(this.$route.params.userId)
         );
-    },
-    showToastError() {
-      toast.error("Erreur lors de la récupération des activités", options);
+
+        await this.getActivities(this.$route.params.userId);
+        toast.success("Activité supprimée", options);
+      } catch (error) {
+        toast.error("Erreur lors de la suppression de l'activité", options);
+      }
     },
   },
-
   async mounted() {
     await this.getActivities(this.$route.params.userId);
   },

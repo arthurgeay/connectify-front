@@ -38,10 +38,6 @@
 
 <script>
 import axios from "axios";
-import LoadingCircle from "../components/LoadingCircle.vue";
-import { useToast } from "vue-toastification";
-
-import LoadingCircle from "../components/LoadingCircle.vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
