@@ -26,6 +26,7 @@
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input
             type="password"
+            autocomplete="on"
             v-model="password"
             class="form-control"
             id="exampleInputPassword1"
@@ -79,12 +80,9 @@ export default {
           email: this.email,
           password: this.password,
         });
-        if (response.status === 200) {
-          console.log("success !!!");
-          toast.success("Vous êtes connecté", options);
+        if (response.status === 200 || response.status === 201) {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("user", JSON.stringify(response.data.user));
-          // this.$router.push("/login");
           window.location = "/";
         }
       } catch (error) {
@@ -93,7 +91,6 @@ export default {
       }
     },
   },
-  mounted() {},
 };
 </script>
 <style>
