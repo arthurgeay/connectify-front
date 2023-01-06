@@ -9,6 +9,8 @@ import UpdateUser from "../views/UpdateUser.vue";
 import UpdateActivity from "../views/UpdateActivity.vue";
 import Profil from "../views/Profil.vue";
 import Map from "../views/Map.vue";
+import Weather from "../views/Weather.vue";
+
 const routes = [
   { path: "/", component: Home },
   { path: "/profile", component: Profil },
@@ -24,6 +26,7 @@ const routes = [
     name: "UpdateActivity",
   },
   { path: "/users/:userId/update", component: UpdateUser },
+  { path: "/weather", component: Weather },
 ];
 
 const router = createRouter({
