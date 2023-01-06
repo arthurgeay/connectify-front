@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <article class="d-flex justify-between" :aria-busy="this.isLoading" aria-current="true" v-for="user in users" v-bind:key="user">
+      <article class="d-flex justify-between" :aria-busy="this.isLoading" aria-current="true" v-for="user in users" v-bind:key="user">
       <div class="align-self-center">
         <p class="mb-0">{{ user.fullname }} - {{ user.age }} ans</p>
         {{ user.city }}
@@ -98,12 +98,37 @@ export default {
         );
       }
     },
+    async callSoapApi() {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API}/temperature/celsius`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          toast.info(
+            "La température actuelle est de " + response.data + "°C",
+            options
+          );
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(
+          "Une erreur est survenue lors de la récupération de la température",
+          options
+        );
+      }
+    },
   },
   mounted() {
     if (!localStorage.getItem("token") && !localStorage.getItem("user")) {
       return this.$router.push("/login");
     }
     this.getUsers();
+    this.callSoapApi();
   },
 };
 </script>
