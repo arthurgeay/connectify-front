@@ -13,20 +13,18 @@
   <router-view></router-view>
 </template>
 
-
 <script>
 import LogoutButton from "./components/LogoutButton.vue";
 export default {
   name: "App",
   data() {
     return {
-    isLogged: localStorage.getItem("token") ?? false,
+      isLogged: localStorage.getItem("token") ? true : false,
     };
   },
   components: {
     LogoutButton,
   },
-  watch: {
-  },
+  watch: {},
 };
 </script>
