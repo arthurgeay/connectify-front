@@ -1,0 +1,28 @@
+button {
+    margin-bottom: 0;
+    width: fit-content;
+}
+
+.w-fit {
+    width: fit-content;
+}
+
+.mb-5 {
+    margin-bottom: 30px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.gap-4 {
+    gap: 15px;
+}
+
+#map > div {
+    border-radius: 0.25rem;
+}

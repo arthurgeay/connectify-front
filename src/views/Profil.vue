@@ -1,7 +1,6 @@
 <template>
   <div class="container-sm">
-    <p>Profil</p>
-    <p>Email : {{ email }}</p>
+    <article>Email : {{ email }}</article>
 
     <p v-if="!hasTooManyRequests">
       Nombre de requêtes API restantes : {{ rateLimitRemaining }} /

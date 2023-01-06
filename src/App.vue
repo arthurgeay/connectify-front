@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="isLogged">
+  <nav v-if="isLogged" class="mb-5">
     <ul>
       <li><strong>Connectify</strong></li>
     </ul>
