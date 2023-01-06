@@ -53,9 +53,17 @@
 
 <script>
 import axios from "axios";
+import { onMounted } from "vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
+const options = {
+  position: "top-right",
+
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 
 export default {
   name: "Login",
@@ -90,3 +98,8 @@ export default {
   },
 };
 </script>
+<style>
+.Vue-Toastification__toastCustom {
+  max-height: 300px !important;
+}
+</style>

@@ -41,7 +41,18 @@ import axios from "axios";
 import LoadingCircle from "../components/LoadingCircle.vue";
 import { useToast } from "vue-toastification";
 
+import LoadingCircle from "../components/LoadingCircle.vue";
+import { useToast } from "vue-toastification";
+
 const toast = useToast();
+const options = {
+  position: "top-right",
+
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
+
 export default {
   name: "Home",
   data() {
@@ -52,35 +63,43 @@ export default {
   },
   methods: {
     async getUsers() {
-      const response = await axios.get(`${import.meta.env.VITE_API}/users`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      this.isLoading = true;
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API}/users`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
-      if (response.status === 200) {
-        this.users = response.data;
-      } else {
+        if (response.status === 200) {
+          this.users = response.data;
+          this.isLoading = false;
+        }
+      } catch (error) {
         toast.error(
-          "Une erreur est survenue lors de la récupérations des utilisateurs"
+          "Une erreur est survenue lors de la récupérations des utilisateurs",
+          options
         );
       }
     },
 
     async deleteUser(userId) {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_API}/users/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      try {
+        const response = await axios.delete(
+          `${import.meta.env.VITE_API}/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          await this.getUsers();
         }
-      );
-      if (response.status === 200) {
-        await this.getUsers();
-      } else {
+      } catch (error) {
         toast.error(
-          "Une erreur est survenue lors de la suppression de votre compte"
+          "Une erreur est survenue lors de la suppression de votre compte",
+          options
         );
       }
     },
@@ -93,3 +112,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.Vue-Toastification__toastCustom {
+  max-height: 300px !important;
+}
+</style>

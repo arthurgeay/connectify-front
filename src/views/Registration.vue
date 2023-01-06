@@ -52,6 +52,16 @@
 
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const options = {
+  position: "top-right",
+
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 
 export default {
   name: "Registration",
@@ -63,29 +73,24 @@ export default {
   },
   methods: {
     async register() {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API}/register`,
-        {
-          email: this.email,
-          password: this.password,
-        }
-      );
-      if (response.status === 200) {
-        toast.success("Votre inscription est validée !");
-      } else {
-        toast.error("Une erreur est survenue, veuillez réessayer");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API}/register`,
+          {
+            email: this.email,
+            password: this.password,
+          }
+        );
+
+        toast.success("Votre inscription est validée !", options);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+
+        window.location = "/";
+      } catch (error) {
+        toast.error("Une erreur est survenue, veuillez réessayer", options);
       }
-
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-
-      window.location = "/";
     },
   },
 };
 </script>
-<style>
-.Vue-Toastification__toastCustom {
-  max-height: 300px !important;
-}
-</style>
