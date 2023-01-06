@@ -1,90 +1,56 @@
 <template>
-  <div class="container-sm">
-    <p>Historique d'activités</p>
-  </div>
-  <div class="accordion" id="accordionExample">
-    <div
-      class="accordion-item"
-      v-for="activity in activities"
-      ref="itemCollapse"
-      v-bind:key="activity"
-    >
-      <h2 class="accordion-header" id="headingOne">
-        <button
-          class="accordion-button"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseOne"
-          aria-expanded="true"
-          aria-controls="collapseOne"
-        >
-          {{ `${activity.type} - ${activity.date}` }}
-        </button>
-      </h2>
-      <div
-        id="collapseOne"
-        class="accordion-collapse collapse show"
-        aria-labelledby="headingOne"
-        data-bs-parent="#accordionExample"
-      >
-        <div class="accordion-body">
-          <div id="calories">
-            <p>
-              {{ `Calories dépensées : ` }}
-              <strong>{{ activity.calories }}</strong>
-            </p>
-          </div>
-          <div id="distance">
-            <p>
-              {{ `Distance : ` }} <strong>{{ activity.distance }}</strong>
-            </p>
-          </div>
-          <div id="duration">
-            <p>
-              {{ `Durée : ` }} <strong>{{ activity.duration }}</strong>
-            </p>
-          </div>
-          <div id="heart_freq">
-            <p>
-              {{ `Fréquence cardiaque moy : ` }}
-              <strong>{{ activity.averageHeartRate }}</strong>
-            </p>
-            <p>
-              {{ `Fréquence cardiaque max : ` }}
-              <strong>{{ activity.maxHeartRate }}</strong>
-            </p>
-          </div>
-
-          <button
-            class="btn btn-primary"
-            @click="
-              $router.push({
-                name: 'UpdateActivity',
-                params: {
-                  activityId: activity._id,
-                  userId: $route.params.userId,
-                },
-              })
-            "
-          >
-            Modifier
-          </button>
-          <button class="btn btn-danger" @click="deleteActivity(activity._id)">
-            Supprimer
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div>
-    <button
-      type="button"
-      class="btn btn-primary"
-      @click="$router.push(`/activity/${$route.params.userId}/create`)"
-    >
+  <div class="d-flex justify-between mb-5">
+    <h3 class="align-self-center mb-0">Historique des activités</h3>
+    <button @click="$router.push(`/activity/${$route.params.userId}/create`)">
       Créer une activité
     </button>
   </div>
+
+  <article v-for="activity in activities" ref="itemCollapse" v-bind:key="activity">
+    <details>
+      <summary>{{ `${activity.type} - ${activity.date}` }}</summary>
+      <div class="pt-5">
+        <p>
+          {{ `Calories dépensées : ` }}
+          <strong>{{ activity.calories }}</strong>
+        </p>
+        <p>
+          {{ `Distance : ` }} <strong>{{ activity.distance }}</strong>
+        </p>
+        <p>
+          {{ `Durée : ` }} <strong>{{ activity.duration }}</strong>
+        </p>
+        <p>
+          {{ `Fréquence cardiaque moy : ` }}
+          <strong>{{ activity.averageHeartRate }}</strong>
+        </p>
+        <p>
+          {{ `Fréquence cardiaque max : ` }}
+          <strong>{{ activity.maxHeartRate }}</strong>
+        </p>
+      </div>
+
+      <div class="d-flex gap-4 justify-end">
+        <button
+          class="outline contrast"
+          @click="
+            $router.push({
+              name: 'UpdateActivity',
+              params: {
+                activityId: activity._id,
+                userId: $route.params.userId,
+              },
+            })
+          "
+        >
+          Modifier
+        </button>
+        <button class="outline secondary" @click="deleteActivity(activity._id)">
+          Supprimer
+        </button>
+      </div>
+    </details>
+  </article>
 </template>
 <script>
 import axios from "axios";

@@ -3,12 +3,14 @@ button {
     width: fit-content;
 }
 
-.w-fit {
-    width: fit-content;
+.align-self-center {
+    align-self: center;
 }
 
-.mb-5 {
-    margin-bottom: 30px;
+details {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
 }
 
 .d-flex {
@@ -19,10 +21,28 @@ button {
     justify-content: space-between;
 }
 
+.justify-end {
+    justify-content: end;
+}
+
 .gap-4 {
     gap: 15px;
 }
 
 #map > div {
     border-radius: 0.25rem;
+}
+
+/* MARGIN */
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-5 {
+    margin-bottom: 30px;
+}
+
+/* PADDING */
+.pt-5 {
+    padding-top: 30px;
 }

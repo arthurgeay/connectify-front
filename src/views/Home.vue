@@ -1,23 +1,17 @@
 <template>
   <div v-if="users.length >= 0">
     <div class="d-flex justify-between mb-5">
-      <p>Liste des utilisateurs</p>
-      <button class="w-fit" @click="$router.push(`/users/create`)">
+      <h3 class="align-self-center mb-0">Liste des utilisateurs</h3>
+      <button @click="$router.push(`/users/create`)">
         Ajouter un utilisateur
       </button>
     </div>
 
-    <article
-      class="d-flex justify-between"
-      :aria-busy="this.isLoading"
-      aria-current="true"
-      v-for="user in users"
-      v-bind:key="user"
-    >
-      <a>
-        <div>{{ user.fullname }} - {{ user.age }} ans</div>
+    <article class="d-flex justify-between" :aria-busy="this.isLoading" aria-current="true" v-for="user in users" v-bind:key="user">
+      <div class="align-self-center">
+        <p class="mb-0">{{ user.fullname }} - {{ user.age }} ans</p>
         {{ user.city }}
-      </a>
+      </div>
       <div class="d-flex gap-4">
         <button @click="$router.push(`/activities/${user._id}`)">
           Activités
