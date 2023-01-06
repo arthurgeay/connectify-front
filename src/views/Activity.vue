@@ -113,7 +113,7 @@ export default {
         );
         this.activities = response.data;
       } catch (error) {
-        toast.error("Erreur lors de la récupération des activités"), options;
+        toast.error("Erreur lors de la récupération des activités", options);
       }
     },
     async deleteActivity(id) {
@@ -133,9 +133,18 @@ export default {
             await this.getActivities(this.$route.params.userId)
         );
     },
+    showToastError() {
+      toast.error("Erreur lors de la récupération des activités", options);
+    },
   },
+
   async mounted() {
     await this.getActivities(this.$route.params.userId);
   },
 };
 </script>
+<style>
+.Vue-Toastification__toastCustom {
+  max-height: 300px !important;
+}
+</style>

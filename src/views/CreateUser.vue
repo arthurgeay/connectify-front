@@ -2,7 +2,12 @@
   <form @submit.prevent="addUser">
     <div class="mb-3">
       <label class="form-label">Nom complet</label>
-      <input type="text" class="form-control" v-model="user.fullname" />
+      <input
+        type="text"
+        class="form-control"
+        v-model="user.fullname"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Age</label>
@@ -46,7 +51,7 @@ export default {
             },
           }
         );
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 201) {
           this.users = response.data;
           this.$router.push(`/`);
         }

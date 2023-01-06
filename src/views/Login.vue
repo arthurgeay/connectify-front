@@ -26,6 +26,7 @@
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input
             type="password"
+            autocomplete="on"
             v-model="password"
             class="form-control"
             id="exampleInputPassword1"
@@ -66,14 +67,19 @@ export default {
   },
   methods: {
     async login() {
-      const response = await axios.post(`${import.meta.env.VITE_API}/login`, {
-        email: this.email,
-        password: this.password,
-      });
-      if (response.status === 200) {
-        toast.success("Vous êtes connecté !");
-      } else {
-        toast.error("Une erreur est survenue, veuillez réessayer");
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API}/login`, {
+          email: this.email,
+          password: this.password,
+        });
+        if (response.status === 200 || response.status === 201) {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          window.location = "/";
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Une erreur est survenue, veuillez réessayer", options);
       }
 
       localStorage.setItem("token", response.data.token);

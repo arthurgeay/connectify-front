@@ -84,3 +84,8 @@ export default {
   },
 };
 </script>
+<style>
+.Vue-Toastification__toastCustom {
+  max-height: 300px !important;
+}
+</style>
