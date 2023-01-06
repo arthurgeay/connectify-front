@@ -2,15 +2,30 @@
   <form @submit.prevent="updateActivity">
     <div class="mb-3">
       <label class="form-label">Type</label>
-      <input type="text" class="form-control" v-model="activity.type" />
+      <input
+        type="text"
+        class="form-control"
+        v-model="activity.type"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Date</label>
-      <input type="date" class="form-control" v-model="activity.date" />
+      <input
+        type="date"
+        class="form-control"
+        v-model="activity.date"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Distance</label>
-      <input type="number" class="form-control" v-model="activity.distance" />
+      <input
+        type="number"
+        class="form-control"
+        v-model="activity.distance"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Durée</label>
@@ -20,6 +35,7 @@
       <label class="form-label">Fréquence cardiaque moyenne</label>
       <input
         type="number"
+        required
         class="form-control"
         v-model="activity.averageHeartRate"
       />
@@ -29,12 +45,18 @@
       <input
         type="number"
         class="form-control"
+        required
         v-model="activity.maxHeartRate"
       />
     </div>
     <div class="mb-3">
       <label class="form-label">Nombre de calories dépensées</label>
-      <input type="number" class="form-control" v-model="activity.calories" />
+      <input
+        type="number"
+        class="form-control"
+        v-model="activity.calories"
+        required
+      />
     </div>
 
     <button type="submit" class="btn btn-primary">Mettre à jour</button>
@@ -42,6 +64,16 @@
 </template>
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const options = {
+  position: "top-right",
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
+
 export default {
   name: "UpdateActivity",
   components: {},
@@ -62,8 +94,8 @@ export default {
   },
   methods: {
     async updateActivity() {
-      await axios
-        .put(
+      try {
+        const response = await axios.put(
           `${import.meta.env.VITE_API}/activities/${
             this.$route.params.activityId
           }/users/${this.$route.params.userId}`,
@@ -73,10 +105,12 @@ export default {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
-        )
-        .then((response) => {
-          this.$router.push(`/activities/${this.$route.params.userId}`);
-        });
+        );
+        toast.success("Activité mise à jour", options);
+        this.$router.push(`/activities/${this.$route.params.userId}`);
+      } catch (error) {
+        toast.error("Une erreur est survenue", options);
+      }
     },
   },
   async mounted() {

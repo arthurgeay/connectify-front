@@ -1,5 +1,5 @@
 <template>
-  <div v-if="users.length > 0">
+  <div v-if="users.length >= 0">
     <div class="d-flex justify-between mb-5">
       <p>Liste des utilisateurs</p>
       <button class="w-fit" @click="$router.push(`/users/create`)">
@@ -7,7 +7,13 @@
       </button>
     </div>
 
-    <article class="d-flex justify-between" :aria-busy="this.isLoading" aria-current="true" v-for="user in users" v-bind:key="user">
+    <article
+      class="d-flex justify-between"
+      :aria-busy="this.isLoading"
+      aria-current="true"
+      v-for="user in users"
+      v-bind:key="user"
+    >
       <a>
         <div>{{ user.fullname }} - {{ user.age }} ans</div>
         {{ user.city }}
@@ -16,7 +22,10 @@
         <button @click="$router.push(`/activities/${user._id}`)">
           Activités
         </button>
-        <button class="outline contrast" @click="$router.push(`/users/${user._id}/update`)">
+        <button
+          class="outline contrast"
+          @click="$router.push(`/users/${user._id}/update`)"
+        >
           Modifier
         </button>
         <button class="outline secondary" @click="deleteUser(user._id)">
@@ -29,6 +38,16 @@
 
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const options = {
+  position: "top-right",
+
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 
 export default {
   name: "Home",
@@ -41,27 +60,49 @@ export default {
   methods: {
     async getUsers() {
       this.isLoading = true;
-
-      const response = await axios.get(`${import.meta.env.VITE_API}/users`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
-      this.users = response.data;
-      this.isLoading = false;
-    },
-
-    async deleteUser(userId) {
-      await axios
-        .delete(`${import.meta.env.VITE_API}/users/${userId}`, {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API}/users`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        })
-        .then(async (response) => {
-          await this.getUsers();
         });
+
+        if (response.status === 200) {
+          this.users = response.data;
+          this.isLoading = false;
+        }
+      } catch (error) {
+        toast.error(
+          "Une erreur est survenue lors de la récupérations des utilisateurs",
+          options
+        );
+      }
+    },
+
+    async deleteUser(userId) {
+      try {
+        const response = await axios.delete(
+          `${import.meta.env.VITE_API}/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (
+          response.status === 200 ||
+          response.status === 201 ||
+          response.status === 204
+        ) {
+          await this.getUsers();
+          toast.success("Utilisateur supprimé", options);
+        }
+      } catch (error) {
+        toast.error(
+          "Une erreur est survenue lors de la suppression de cet utilisateur",
+          options
+        );
+      }
     },
   },
   mounted() {
@@ -72,3 +113,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.Vue-Toastification__toastCustom {
+  max-height: 300px !important;
+}
+</style>

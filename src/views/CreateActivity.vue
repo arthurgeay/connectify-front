@@ -2,19 +2,39 @@
   <form @submit.prevent="createActivity">
     <div class="mb-3">
       <label class="form-label">Type</label>
-      <input type="text" class="form-control" v-model="activity.type" />
+      <input
+        type="text"
+        class="form-control"
+        v-model="activity.type"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Date</label>
-      <input type="date" class="form-control" v-model="activity.date" />
+      <input
+        type="date"
+        class="form-control"
+        v-model="activity.date"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Distance</label>
-      <input type="number" class="form-control" v-model="activity.distance" />
+      <input
+        type="number"
+        class="form-control"
+        v-model="activity.distance"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Durée</label>
-      <input type="number" class="form-control" v-model="activity.duration" />
+      <input
+        type="number"
+        class="form-control"
+        v-model="activity.duration"
+        required
+      />
     </div>
     <div class="mb-3">
       <label class="form-label">Fréquence cardiaque moyenne</label>
@@ -22,6 +42,7 @@
         type="number"
         class="form-control"
         v-model="activity.averageHeartRate"
+        required
       />
     </div>
     <div class="mb-3">
@@ -30,11 +51,17 @@
         type="number"
         class="form-control"
         v-model="activity.maxHeartRate"
+        required
       />
     </div>
     <div class="mb-3">
       <label class="form-label">Nombre de calories dépensées</label>
-      <input type="number" class="form-control" v-model="activity.calories" />
+      <input
+        type="number"
+        class="form-control"
+        v-model="activity.calories"
+        required
+      />
     </div>
 
     <button type="submit" class="btn btn-primary">Créer</button>
@@ -42,6 +69,16 @@
 </template>
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const options = {
+  position: "top-right",
+
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 export default {
   name: "CreateActivity",
   components: {},
@@ -61,8 +98,8 @@ export default {
   },
   methods: {
     async createActivity() {
-      await axios
-        .post(
+      try {
+        const response = await axios.post(
           `${import.meta.env.VITE_API}/activities/users/${
             this.$route.params.userId
           }`,
@@ -72,11 +109,25 @@ export default {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
-        )
-        .then((response) => {
+        );
+
+        if (response.status === 200 || response.status === 201) {
+          toast.success("Activité créée", options);
           this.$router.push(`/activities/${this.$route.params.userId}`);
-        });
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(
+          "Une erreur est survenue, veuillez vérifier les données saisies",
+          options
+        );
+      }
     },
   },
 };
 </script>
+<style>
+.Vue-Toastification__toastCustom {
+  max-height: 300px !important;
+}
+</style>

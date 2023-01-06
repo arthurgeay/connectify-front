@@ -88,6 +88,16 @@
 </template>
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const options = {
+  position: "top-right",
+
+  closeButton: false,
+  hideProgressBar: true,
+  closeOnClick: true,
+};
 export default {
   name: "Activity",
   components: {},
@@ -98,19 +108,23 @@ export default {
   },
   methods: {
     async getActivities(userId) {
-      await axios
-        .get(`${import.meta.env.VITE_API}/activities/users/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => {
-          this.activities = response.data;
-        });
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API}/activities/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        this.activities = response.data;
+      } catch (error) {
+        toast.error("Erreur lors de la récupération des activités", options);
+      }
     },
     async deleteActivity(id) {
-      await axios
-        .delete(
+      try {
+        const response = await axios.delete(
           `${import.meta.env.VITE_API}/activities/${id}/users/${
             this.$route.params.userId
           }`,
@@ -119,11 +133,13 @@ export default {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
-        )
-        .then(
-          async (response) =>
-            await this.getActivities(this.$route.params.userId)
         );
+
+        await this.getActivities(this.$route.params.userId);
+        toast.success("Activité supprimée", options);
+      } catch (error) {
+        toast.error("Erreur lors de la suppression de l'activité", options);
+      }
     },
   },
   async mounted() {
@@ -131,3 +147,8 @@ export default {
   },
 };
 </script>
+<style>
+.Vue-Toastification__toastCustom {
+  max-height: 300px !important;
+}
+</style>
