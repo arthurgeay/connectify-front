@@ -7,7 +7,13 @@
       </button>
     </div>
 
-      <article class="d-flex justify-between" :aria-busy="this.isLoading" aria-current="true" v-for="user in users" v-bind:key="user">
+    <article
+      class="d-flex justify-between"
+      :aria-busy="this.isLoading"
+      aria-current="true"
+      v-for="user in users"
+      v-bind:key="user"
+    >
       <div class="align-self-center">
         <p class="mb-0">{{ user.fullname }} - {{ user.age }} ans</p>
         {{ user.city }}
@@ -101,7 +107,7 @@ export default {
     async callSoapApi() {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API}/temperature/celsius`,
+          `${import.meta.env.VITE_API}/temperatures/celsius`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -115,7 +121,6 @@ export default {
           );
         }
       } catch (error) {
-        console.log(error);
         toast.error(
           "Une erreur est survenue lors de la récupération de la température",
           options
