@@ -4,6 +4,7 @@ import router from "./router";
 import axios from "axios";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import "./assets/style.css"
 
 const app = createApp(App);
 
