@@ -8,6 +8,7 @@
       <li><router-link to="/map">Carte</router-link></li>
       <li><router-link to="/profile">Profil</router-link></li>
       <li><router-link to="/weather">Météo</router-link></li>
+      <li><router-link to="/country">Pays</router-link></li>
       <li><LogoutButton /></li>
     </ul>
   </nav>
