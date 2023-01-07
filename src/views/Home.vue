@@ -7,7 +7,13 @@
       </button>
     </div>
 
-    <article class="d-flex justify-between" :aria-busy="this.isLoading" aria-current="true" v-for="user in users" v-bind:key="user">
+    <article
+      class="d-flex justify-between"
+      :aria-busy="this.isLoading"
+      aria-current="true"
+      v-for="user in users"
+      v-bind:key="user"
+    >
       <div class="align-self-center">
         <p class="mb-0">{{ user.fullname }} - {{ user.age }} ans</p>
         {{ user.city }}
