@@ -1,5 +1,4 @@
 <template>
-
   <h1>Sign in</h1>
   <form>
     <label for="exampleInputEmail1">Email address</label>
