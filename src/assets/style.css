@@ -29,8 +29,17 @@ details {
     gap: 15px;
 }
 
+.wrap {
+    flex-wrap: wrap;
+}
+
 #map > div {
     border-radius: 0.25rem;
+}
+
+.link {
+    background-color: transparent;
+    border-color: transparent;
 }
 
 /* MARGIN */

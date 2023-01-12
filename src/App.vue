@@ -1,10 +1,9 @@
 <template>
   <nav v-if="isLogged" class="mb-5">
     <ul>
-      <li><strong>Connectify</strong></li>
+      <li><strong><router-link to="/">Connectify</router-link></strong></li>
     </ul>
     <ul>
-      <li><router-link to="/">Accueil</router-link></li>
       <li><router-link to="/map">Carte</router-link></li>
       <li><router-link to="/profile">Profil</router-link></li>
       <li><router-link to="/weather">Météo</router-link></li>
@@ -13,9 +12,9 @@
     </ul>
   </nav>
   <router-view></router-view>
-  <div v-if="temperature">
+  <!-- <div v-if="temperature">
     <p>Température actuelle : {{ temperature }} °C</p>
-  </div>
+  </div> -->
 </template>
 
 <script>
