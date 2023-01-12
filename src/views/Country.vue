@@ -1,6 +1,6 @@
 <template>
   <h1>Pays</h1>
-
+  <div :aria-busy="!isLoaded" v-if="!isLoaded">Chargements des données</div>
   <article v-for="(country, index) in countries" :key="index">
     <h2>{{ country.name }}</h2>
     <p><img :src="country.logo" alt="drapeau" /></p>
@@ -26,6 +26,7 @@ export default {
   data() {
     return {
       countries: [],
+      isLoaded: false,
     };
   },
   async mounted() {
@@ -39,6 +40,7 @@ export default {
         );
 
         this.countries = response.data;
+        this.isLoaded = true;
       } catch (error) {
         toast.error("Une erreur est survenue, veuillez réessayer", options);
       }

@@ -1,5 +1,6 @@
 <template>
   <h1>La météo du {{ formatDate() }}</h1>
+  <div :aria-busy="!isLoaded" v-if="!isLoaded">Chargements des données</div>
   <Line v-if="isLoaded" :options="chartOptions" :data="chartData" />
 </template>
 
@@ -51,12 +52,17 @@ export default {
         labels: [],
         datasets: [
           {
-            label: "Température",
+            label: "Température (Celsius)",
             backgroundColor: "#f87979",
             data: [],
           },
           {
-            label: "Précipitation",
+            label: "Température (Fahrenheit)",
+            backgroundColor: "yellow",
+            data: [],
+          },
+          {
+            label: "Précipitation (mm)",
             backgroundColor: "green",
             data: [],
           },
@@ -78,17 +84,26 @@ export default {
           `${import.meta.env.VITE_API}/weathers/current`
         );
 
+        const celciusTemperatures = response.data.map(
+          (weather) => weather.temperature
+        );
+
+        const farenheitTemperatures = await this.callSoapApi(
+          celciusTemperatures
+        );
+
+        const precipitations = response.data.map(
+          (weather) => weather.precipitation
+        );
+
         this.chartData.labels = response.data.map((weather) =>
           format(new Date(weather.date), "hh:mm")
         );
 
-        this.chartData.datasets[0].data = response.data.map(
-          (weather) => weather.temperature
-        );
-
-        this.chartData.datasets[1].data = response.data.map(
-          (weather) => weather.precipitation
-        );
+        this.chartData.datasets[0].data = celciusTemperatures;
+        this.chartData.datasets[1].data =
+          farenheitTemperatures.temperatures || [];
+        this.chartData.datasets[2].data = precipitations;
 
         this.isLoaded = true;
       } catch (error) {
@@ -97,6 +112,30 @@ export default {
     },
     formatDate() {
       return format(new Date(), "dd/MM/yyyy");
+    },
+    async callSoapApi(temperatures) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API}/temperatures/conversion`,
+          {
+            temperatures,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          return response.data;
+        }
+      } catch (error) {
+        toast.error(
+          "Une erreur est survenue lors de la récupération de la température",
+          options
+        );
+      }
     },
   },
 };
