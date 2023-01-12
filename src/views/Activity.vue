@@ -8,7 +8,7 @@
 
   <article v-for="activity in activities" ref="itemCollapse" v-bind:key="activity">
     <details>
-      <summary>{{ `${activity.type} - ${activity.date}` }}</summary>
+      <summary>{{ `${activity.type} - ${formattedDate(activity.date)}` }}</summary>
       <div class="pt-5">
         <p>
           {{ `Calories dépensées : ` }}
@@ -55,6 +55,8 @@
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import { formatDistance } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 const toast = useToast();
 const options = {
@@ -107,6 +109,9 @@ export default {
         toast.error("Erreur lors de la suppression de l'activité", options);
       }
     },
+    formattedDate(date) {
+        return formatDistance(new Date(date), new Date(), { addSuffix: true, locale: fr })
+    }
   },
   async mounted() {
     await this.getActivities(this.$route.params.userId);
