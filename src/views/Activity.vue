@@ -5,10 +5,16 @@
       Créer une activité
     </button>
   </div>
-
-  <article v-for="activity in activities" ref="itemCollapse" v-bind:key="activity">
+  <div :aria-busy="isLoading" v-if="isLoading">Chargement des données</div>
+  <article
+    v-for="activity in activities"
+    ref="itemCollapse"
+    v-bind:key="activity"
+  >
     <details>
-      <summary>{{ `${activity.type} - ${formattedDate(activity.date)}` }}</summary>
+      <summary>
+        {{ `${activity.type} - ${formattedDate(activity.date)}` }}
+      </summary>
       <div class="pt-5">
         <p>
           {{ `Calories dépensées : ` }}
@@ -55,8 +61,8 @@
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
-import { formatDistance } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { formatDistance } from "date-fns";
+import { fr } from "date-fns/locale";
 
 const toast = useToast();
 const options = {
@@ -72,10 +78,13 @@ export default {
   data() {
     return {
       activities: [],
+      isLoading: false,
     };
   },
   methods: {
     async getActivities(userId) {
+      this.isLoading = true;
+
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API}/activities/users/${userId}`,
@@ -86,6 +95,7 @@ export default {
           }
         );
         this.activities = response.data;
+        this.isLoading = false;
       } catch (error) {
         toast.error("Erreur lors de la récupération des activités", options);
       }
@@ -110,8 +120,11 @@ export default {
       }
     },
     formattedDate(date) {
-        return formatDistance(new Date(date), new Date(), { addSuffix: true, locale: fr })
-    }
+      return formatDistance(new Date(date), new Date(), {
+        addSuffix: true,
+        locale: fr,
+      });
+    },
   },
   async mounted() {
     await this.getActivities(this.$route.params.userId);

@@ -7,9 +7,10 @@
       </button>
     </div>
 
+    <div :aria-busy="isLoading" v-if="isLoading">Chargement des données</div>
+
     <article
       class="d-flex justify-between wrap gap-4"
-      :aria-busy="this.isLoading"
       aria-current="true"
       v-for="user in users"
       v-bind:key="user"

@@ -2,12 +2,24 @@
   <h1>Sign in</h1>
   <form>
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" v-model="email" id="exampleInputEmail1" aria-describedby="emailHelp" required/>
+    <input
+      type="email"
+      v-model="email"
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      required
+    />
     <small id="emailHelp">We'll never share your email with anyone else.</small>
 
     <label for="exampleInputPassword1">Password</label>
-    <input type="password" autocomplete="on" v-model="password" id="exampleInputPassword1" required/>
-    
+    <input
+      type="password"
+      autocomplete="on"
+      v-model="password"
+      id="exampleInputPassword1"
+      required
+    />
+
     <button type="submit" v-on:click.prevent="login()">Login</button>
     <p>
       Not a member?
